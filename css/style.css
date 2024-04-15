@@ -4,6 +4,11 @@
     }
 }
 
+@font-face {
+    font-family: 'Inter var', sans-serif;
+    src: url("../fonts/Inter-Regular.ttf");
+}
+
 :root {
     --white-light: rgba(255, 255, 255, 0.5);
     --alice-blue: #f8f9fa;
@@ -223,7 +228,6 @@ img {
     transition: all 0.2s ease;
     font-size: 1rem;
     font-family: 'Inter var', sans-serif;
-    text-transform: uppercase;
     opacity: 70%;
 }
 
