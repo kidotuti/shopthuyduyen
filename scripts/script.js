@@ -145,13 +145,13 @@ document
     renderProducts(event.target.value, products);
   });
 
-function enlargeImage(imageUrl, productName) {
+function enlargeImage(imageUrl, productPrice) {
   var modal = document.getElementById("zoomImg");
   var modalImg = document.getElementById("zoom-img");
   var captionText = document.getElementById("zoom-caption");
   modal.style.display = "block";
   modalImg.src = imageUrl;
-  captionText.innerHTML = productName;
+  captionText.innerHTML = "SALE: " + productPrice;
   var span = document.getElementsByClassName("zoomClose")[0];
   span.onclick = function () {
     modal.style.display = "none";
