@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png" />
+    <script src="https://kit.fontawesome.com/dbed6b6114.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script defer src="scripts/script.js"></script>
+    <title>Shop Thuỳ Duyên - Skincare and makeup</title>
+</head>
+
+<body>
+    <div class="header-container" id="header">
+        <div class="logo">
+            <img src="images/logo.svg" alt="logo">
+        </div>
+    </div>
+
+    <div id="sticky-scroll">
+        <div id="input-group">
+            <input type="text" id="searchInput" placeholder="Tìm kiếm sản phẩm..." autocomplete="off"
+                spellcheck="false">
+            <label for="search" class="search-label"><i class="fas fa-search"></i></label>
+        </div>
+
+        <div id="filter-group">
+            <div class="checkboxes__row">
+                <div class="checkboxes__item" id="ckb-big-sale" onclick="renderBigSale()">
+                    <label class="checkbox style-e">
+                        <input type="checkbox" />
+                        <div class="checkbox__checkmark"></div>
+                        <div class="checkbox__body">BIG SALE <i class="fas fa-bolt"></i></div>
+                    </label>
+                </div>
+
+                <div class="checkboxes__item" id="ckb-min" onclick="renderIncreasePrice()">
+                    <label class="checkbox style-e">
+                        <input type="checkbox" />
+                        <div class="checkbox__checkmark"></div>
+                        <div class="checkbox__body">Tăng dần &#8593;</div>
+                    </label>
+                </div>
+
+                <div class="checkboxes__item" id="ckb-max" onclick="renderDecreasePrice()">
+                    <label class="checkbox style-e">
+                        <input type="checkbox" />
+                        <div class="checkbox__checkmark"></div>
+                        <div class="checkbox__body">Giảm dần &#8595;</div>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="products">
+        <div class="container">
+            <div class="product-items" id="productitems">
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section contact-info">
+                <img src="images/logo.svg" alt="logo" class="footer-logo">
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat vero recusandae a reiciendis eius
+                    similique
+                    dolores ab, harum unde error nostrum adipisci amet ea. Optio fugit vero fugiat magnam debitis!</p>
+                <p><a href="https://g.co/kgs/eSasV9z" target="_blank"><i class="fas fa-map-marker-alt"></i> Toà S901,
+                        Vinhomes
+                        Grand Park, Tp. Thủ Đức</a></p>
+                <p><a href="tel:+84337468500"><i class="fas fa-phone"></i> Call/Zalo cá nhân: +84 337 468 500</a></p>
+                <p><a href="https://zalo.me/g/uyaebi367" target="_blank"><i class="fas fa-users"></i> Group Zalo chăm
+                        sóc khách
+                        hàng</a></p>
+                <p><a href="https://www.facebook.com/100014719381367" target="_blank"><i class="fab fa-facebook"></i>
+                        Facebook
+                        cá nhân: Thuỳ Duyên</a></p>
+            </div>
+        </div>
+    </footer>
+    <p class="copyright">©️ THUYDUYEN since 2016 😎 From thuyduyen with ❤️</p>
+
+    <div id="zoomImg" class="enlargeImg">
+        <span class="zoomClose">&times;</span>
+        <img class="zoom-content" id="zoom-img">
+        <div id="zoom-caption"></div>
+    </div>
+
+</body>
+
+<script src="scripts/script.js"></script>
+
+</html>
