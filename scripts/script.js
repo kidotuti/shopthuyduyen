@@ -167,10 +167,8 @@ function uncheckCheckbox() {
   });
 }
 
-//big sale
+//Big sale
 function renderBigSale() {
-  document.querySelector('#ckb-min input[type="checkbox"]').checked = false;
-  document.querySelector('#ckb-max input[type="checkbox"]').checked = false;
   var checkBox = document.querySelector('#ckb-big-sale input[type="checkbox"]');
   if (checkBox.checked) {
     renderProducts("BIGSALE", products);
@@ -181,9 +179,14 @@ function renderBigSale() {
 
 //Tang dan
 function renderIncreasePrice() {
-  document.querySelector(
+  var queryStr = "";
+  var checkBigSale = document.querySelector(
     '#ckb-big-sale input[type="checkbox"]'
-  ).checked = false;
+  );
+  if (checkBigSale.checked) {
+    queryStr = "BIGSALE";
+  }
+
   document.querySelector('#ckb-max input[type="checkbox"]').checked = false;
   var checkBox = document.querySelector('#ckb-min input[type="checkbox"]');
   if (checkBox.checked) {
@@ -199,19 +202,23 @@ function renderIncreasePrice() {
         return 0;
       }
     });
-
-    renderProducts("", sortedProducts);
+    renderProducts(queryStr, sortedProducts);
   } else {
-    renderProducts("", products);
+    renderProducts(queryStr, products);
   }
 }
 
 //Giam dan
 function renderDecreasePrice() {
-  document.querySelector('#ckb-min input[type="checkbox"]').checked = false;
-  document.querySelector(
+  var queryStr = "";
+  var checkBigSale = document.querySelector(
     '#ckb-big-sale input[type="checkbox"]'
-  ).checked = false;
+  );
+  if (checkBigSale.checked) {
+    queryStr = "BIGSALE";
+  }
+
+  document.querySelector('#ckb-min input[type="checkbox"]').checked = false;
   var checkBox = document.querySelector('#ckb-max input[type="checkbox"]');
   if (checkBox.checked) {
     const sortedProducts = [...products];
@@ -226,9 +233,9 @@ function renderDecreasePrice() {
         return 0;
       }
     });
-    renderProducts("", sortedProducts);
+    renderProducts(queryStr, sortedProducts);
   } else {
-    renderProducts("", products);
+    renderProducts(queryStr, products);
   }
 }
 
