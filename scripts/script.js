@@ -1,6 +1,7 @@
 const URL = `https://opensheet.elk.sh/1yJkAYiUl8FwYNtFX6Y16CVk00pMTn5I3PlBViw4WrK8/`;
 const skincareIndex = 1;
 const products = [];
+const productTypesSet = new Set();
 
 async function fetchData(pageIndex) {
   try {
@@ -16,19 +17,23 @@ async function fetchData(pageIndex) {
         product.TYPE.trim() !== ""
       ) {
         const newProduct = {
-          name: product.PRODUCTNAME,
-          type: product.TYPE,
+          name: replaceNewlinesAndTabs(product.PRODUCTNAME),
+          type: replaceNewlinesAndTabs(product.TYPE),
           retailPrice: product.RETAILPRICE,
           salePrice: product.SALEPRICE,
           discount: product.DISCOUNT,
           imageUrls: product.IMAGEURLS,
           saleType: "",
+          description: product.DESCRIPTION,
         };
         products.push(newProduct);
+        productTypesSet.add(product.TYPE.trim().toLowerCase());
       }
     }
     console.log("Size sản phẩm: " + products.length);
+    console.log("Size loại sản phẩm: " + productTypesSet.size);
     renderProducts("", products);
+    addTabFilterType(Array.from(productTypesSet));
   } catch (error) {
     console.error("Error fetching data:", error);
   }
@@ -38,6 +43,18 @@ fetchData(skincareIndex);
 
 function removeDiacritics(str) {
   return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+}
+
+function replaceNewlinesAndTabs(inputString) {
+  return inputString.replace(/\n/g, " ").replace(/\t/g, " ");
+}
+
+function escapeCharacters(inputString) {
+  return inputString
+    .replace(/'/g, "\\'")
+    .replace(/\n/g, "<br>")
+    .replace(/\t/g, "&emsp;")
+    .replace(/\r/g, "\\r");
 }
 
 function renderProducts(searchQuery, products) {
@@ -71,7 +88,7 @@ function renderProducts(searchQuery, products) {
                         product.name
                       }" onclick="enlargeImage('${imageUrl}', '${
                         product.salePrice
-                      }đ')"></div>`
+                      }đ', '${escapeCharacters(product.description)}')"></div>`
                   )
                   .join("")}
                   </div>
@@ -145,13 +162,16 @@ document
     renderProducts(event.target.value, products);
   });
 
-function enlargeImage(imageUrl, productPrice) {
+function enlargeImage(imageUrl, productPrice, prdDescription) {
   var modal = document.getElementById("zoomImg");
   var modalImg = document.getElementById("zoom-img");
   var captionText = document.getElementById("zoom-caption");
+  var descriptionText = document.querySelector("#zoom-description p");
   modal.style.display = "block";
   modalImg.src = imageUrl;
   captionText.innerHTML = "SALE: " + productPrice;
+  console.log(prdDescription);
+  descriptionText.innerHTML = prdDescription == undefined ? "" : prdDescription;
   var span = document.getElementsByClassName("zoomClose")[0];
   span.onclick = function () {
     modal.style.display = "none";
@@ -260,7 +280,6 @@ window.onload = function () {
   var headerOffset = findOffset(stickyHeader);
 
   window.onscroll = function () {
-    // body.scrollTop is deprecated and no longer available on Firefox
     var bodyScrollTop =
       document.documentElement.scrollTop || document.body.scrollTop;
 
@@ -291,9 +310,39 @@ const scrollToTop = () => {
       left: 0,
       behavior: "smooth",
     });
-    console.log(event);
   });
 };
 
 displayButton();
 scrollToTop();
+
+function addTabFilterType(productTypesArray) {
+  const tabGroup = document.getElementById("tab-group");
+  const allBtn = document.createElement("div");
+  allBtn.classList.add("filter-btn");
+  const button = document.createElement("button");
+  button.innerHTML = '<i class="fas fa-list"></i> Tất cả';
+  button.style.color = "#4a90e2";
+  button.addEventListener("click", () => filterByType("ALL"));
+  allBtn.appendChild(button);
+  tabGroup.append(allBtn);
+
+  productTypesArray.forEach((type) => {
+    const filterBtn = document.createElement("div");
+    filterBtn.classList.add("filter-btn");
+    const button = document.createElement("button");
+    button.textContent = type;
+    button.addEventListener("click", () => filterByType(type));
+    filterBtn.appendChild(button);
+    tabGroup.append(filterBtn);
+  });
+}
+
+function filterByType(type) {
+  switch (type) {
+    case "ALL":
+      break;
+    default:
+      break;
+  }
+}
