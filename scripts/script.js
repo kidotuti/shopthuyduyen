@@ -88,7 +88,9 @@ function renderProducts(searchQuery, products) {
                         product.name
                       }" onclick="enlargeImage('${imageUrl}', '${
                         product.salePrice
-                      }đ', '${escapeCharacters(product.description)}')"></div>`
+                      }đ', '${escapeCharacters(
+                        product.description
+                      )}', '${escapeCharacters(product.name)}')"></div>`
                   )
                   .join("")}
                   </div>
@@ -102,7 +104,7 @@ function renderProducts(searchQuery, products) {
               <p class="product-price" style="font-size:10px">${
                 product.retailPrice
               }</p>
-              <p class="product-price" style="color: var(--carribean-green);font-weight:bold;font-size:1.1rem">${
+              <p class="product-price" style="color: var(--carribean-green);font-weight:bold;font-size:1rem">${
                 product.salePrice
               }đ</p>
               <p class="product-price" style="font-size:10px;text-transform: uppercase;">${
@@ -162,16 +164,17 @@ document
     renderProducts(event.target.value, products);
   });
 
-function enlargeImage(imageUrl, productPrice, prdDescription) {
+function enlargeImage(imageUrl, productPrice, prdDescription, prdName) {
   var modal = document.getElementById("zoomImg");
   var modalImg = document.getElementById("zoom-img");
   var captionText = document.getElementById("zoom-caption");
   var descriptionText = document.querySelector("#zoom-description p");
+  var nameText = document.querySelector("#zoom-name p");
   modal.style.display = "block";
   modalImg.src = imageUrl;
   captionText.innerHTML = "SALE: " + productPrice;
-  console.log(prdDescription);
   descriptionText.innerHTML = prdDescription == undefined ? "" : prdDescription;
+  nameText.innerHTML = prdName == undefined ? "" : prdName;
   var span = document.getElementsByClassName("zoomClose")[0];
   span.onclick = function () {
     modal.style.display = "none";
