@@ -84,9 +84,9 @@ function renderProducts(searchQuery, products) {
                     (imageUrl, index) =>
                       `<div class="slide ${
                         index === 0 ? "active" : ""
-                      }"><img src="${imageUrl}" alt="${
+                      }"><img src="https://shopthuyduyen.com/media/${imageUrl}" alt="${
                         product.name
-                      }" onclick="enlargeImage('${imageUrl}', '${
+                      }" onclick="enlargeImage('https://shopthuyduyen.com/media/${imageUrl}', '${
                         product.salePrice
                       }đ', '${escapeCharacters(
                         product.description
