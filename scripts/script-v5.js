@@ -33,7 +33,7 @@ async function fetchData(pageIndex) {
     console.log("Size sản phẩm: " + products.length);
     console.log("Size loại sản phẩm: " + productTypesSet.size);
     renderProducts("", products);
-    addTabFilterType(Array.from(productTypesSet));
+    // addTabFilterType(Array.from(productTypesSet));
   } catch (error) {
     console.error("Error fetching data:", error);
   }
@@ -78,19 +78,24 @@ function renderProducts(searchQuery, products) {
           <div class="product-content">
             <div class="product-img">
               <div class="slideshow-container" id="slideshow_${index}">
+                <div class="default-image">
+                  <img width="180px" height="180px" src="images/logo.png" alt="Shop Thuỳ Duyên">
+                </div>
                 ${(product.imageUrls == undefined ? "" : product.imageUrls)
                   .split(",")
                   .map(
                     (imageUrl, index) =>
                       `<div class="slide ${
                         index === 0 ? "active" : ""
-                      }"><img src="https://shopthuyduyen.com/media/${imageUrl}" alt="${
+                      }"><img loading="lazy" src="https://shopthuyduyen.com/media/${imageUrl}" alt="${
                         product.name
                       }" onclick="enlargeImage('https://shopthuyduyen.com/media/${imageUrl}', '${
                         product.salePrice
                       }đ', '${escapeCharacters(
                         product.description
-                      )}', '${escapeCharacters(product.name)}')"></div>`
+                      )}', '${escapeCharacters(
+                        product.name
+                      )}')" onload="hideDefaultImage(this)"></div>`
                   )
                   .join("")}
                   </div>
@@ -129,6 +134,12 @@ function renderProducts(searchQuery, products) {
       productsContainer.appendChild(productElement);
     }
   });
+}
+
+function hideDefaultImage(img) {
+  const defaultImageContainer =
+    img.parentNode.parentNode.querySelector(".default-image");
+  defaultImageContainer.style.display = "none";
 }
 
 function changeSlide(index, direction) {
@@ -348,4 +359,41 @@ function filterByType(type) {
     default:
       break;
   }
+}
+
+function replaceBrokenImage(event) {
+  event.target.src = "https://shopthuyduyen.com/images/logo.png";
+}
+
+function replaceBrokenImageZoom(event) {
+  event.target.src = "https://shopthuyduyen.com/images/thuyduyen.png";
+}
+
+var images = document.querySelectorAll(".product-img img");
+var imagesZoom = document.querySelectorAll(".zoom-content");
+images.forEach(function (img) {
+  img.addEventListener("error", replaceBrokenImage);
+});
+
+imagesZoom.forEach(function (img) {
+  img.addEventListener("error", replaceBrokenImageZoom);
+});
+
+function convertToSlug(text) {
+  return text
+    .toLowerCase()
+    .replace(/\n/g, " ")
+    .replace(/\t/g, " ")
+    .replace(/đ/g, "d")
+    .replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a")
+    .replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e")
+    .replace(/ì|í|ị|ỉ|ĩ/g, "i")
+    .replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o")
+    .replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u")
+    .replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y")
+    .replace(/ñ/g, "n")
+    .replace(/ç/g, "c")
+    .replace(/ß/g, "ss")
+    .replace(/[\W_]+/g, "-")
+    .replace(/^-+|-+$/g, "");
 }
