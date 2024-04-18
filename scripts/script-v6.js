@@ -2,6 +2,8 @@ const URL = `https://opensheet.elk.sh/1yJkAYiUl8FwYNtFX6Y16CVk00pMTn5I3PlBViw4Wr
 const skincareIndex = 1;
 const products = [];
 const productTypesSet = new Set();
+const delayTime = 1000;
+let delayTimer;
 
 async function fetchData(pageIndex) {
   try {
@@ -33,7 +35,7 @@ async function fetchData(pageIndex) {
     console.log("Size sản phẩm: " + products.length);
     console.log("Size loại sản phẩm: " + productTypesSet.size);
     renderProducts("", products);
-    // addTabFilterType(Array.from(productTypesSet));
+    addTabFilterType(Array.from(productTypesSet));
   } catch (error) {
     console.error("Error fetching data:", error);
   }
@@ -172,7 +174,10 @@ document
   .getElementById("searchInput")
   .addEventListener("input", function (event) {
     uncheckCheckbox();
-    renderProducts(event.target.value, products);
+    clearTimeout(delayTimer);
+    delayTimer = setTimeout(function () {
+      renderProducts(event.target.value, products);
+    }, delayTime);
   });
 
 function enlargeImage(imageUrl, productPrice, prdDescription, prdName) {
@@ -341,15 +346,15 @@ function addTabFilterType(productTypesArray) {
   allBtn.appendChild(button);
   tabGroup.append(allBtn);
 
-  productTypesArray.forEach((type) => {
-    const filterBtn = document.createElement("div");
-    filterBtn.classList.add("filter-btn");
-    const button = document.createElement("button");
-    button.textContent = type;
-    button.addEventListener("click", () => filterByType(type));
-    filterBtn.appendChild(button);
-    tabGroup.append(filterBtn);
-  });
+  // productTypesArray.forEach((type) => {
+  //   const filterBtn = document.createElement("div");
+  //   filterBtn.classList.add("filter-btn");
+  //   const button = document.createElement("button");
+  //   button.textContent = type;
+  //   button.addEventListener("click", () => filterByType(type));
+  //   filterBtn.appendChild(button);
+  //   tabGroup.append(filterBtn);
+  // });
 }
 
 function filterByType(type) {
