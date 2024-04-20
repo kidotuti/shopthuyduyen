@@ -213,6 +213,8 @@ function renderBigSale() {
     renderProducts("BIGSALE", products);
   } else {
     renderProducts("", products);
+    document.querySelector('#ckb-max input[type="checkbox"]').checked = false;
+    document.querySelector('#ckb-min input[type="checkbox"]').checked = false;
   }
 }
 
